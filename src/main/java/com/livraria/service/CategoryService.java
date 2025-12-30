@@ -23,7 +23,7 @@ public class CategoryService {
     }
 
     public CategoryDTO findById(Long id) {
-        Category category = repository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+        Category category = repository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
 
         return new CategoryDTO(category.getId(), category.getDescription());
     }
@@ -43,7 +43,7 @@ public class CategoryService {
     }
 
     public void delete(Long id) {
-        Category category = repository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+        Category category = repository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
         repository.delete(category);
     }
 

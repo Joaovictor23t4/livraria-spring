@@ -3,10 +3,12 @@ package com.livraria.entity;
 import jakarta.persistence.*;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 @Entity
 @Table(name="CATEGORY")
-public class Category {
+public class Category implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
