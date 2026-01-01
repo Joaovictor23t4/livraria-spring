@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.livraria.dto.CategoryCreateDTO;
 import com.livraria.dto.CategoryDTO;
-import com.livraria.entity.Category;
 import com.livraria.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,14 +34,14 @@ public class CategoryController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<CategoryDTO> create(@RequestBody CategoryCreateDTO body) {
+    public ResponseEntity<CategoryDTO> create(@RequestBody @Valid CategoryCreateDTO body) {
         CategoryDTO category = service.create(body);
 
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody CategoryCreateDTO body) {
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody @Valid CategoryCreateDTO body) throws IllegalAccessException {
         CategoryDTO category = service.update(id, body);
 
         return new ResponseEntity<>(category, HttpStatus.OK);

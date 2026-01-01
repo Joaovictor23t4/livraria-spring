@@ -1,5 +1,7 @@
 package com.livraria.dto;
 
-public record CategoryCreateDTO(String description) {
+import jakarta.validation.constraints.NotNull;
+
+public record CategoryCreateDTO(@NotNull String description) {
 
 }

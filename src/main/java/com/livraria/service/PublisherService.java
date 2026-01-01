@@ -2,9 +2,10 @@ package com.livraria.service;
 
 import com.livraria.dto.PublisherCreateDTO;
 import com.livraria.dto.PublisherDTO;
-import com.livraria.entity.Category;
 import com.livraria.entity.Publisher;
+import com.livraria.exceptions.publisher.PublisherNotFoundException;
 import com.livraria.repository.PublisherRepository;
+import com.livraria.utils.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class PublisherService {
     }
 
     public PublisherDTO findById(Long id) {
-        Publisher publisher = repository.findById(id).orElseThrow(() -> new RuntimeException("Publisher not found"));
+        Publisher publisher = repository.findById(id).orElseThrow(PublisherNotFoundException::new);
         
         return toPublisherDTO(publisher);
     }
@@ -37,15 +38,10 @@ public class PublisherService {
         return toPublisherDTO(publisher);
     }
     
-    public PublisherDTO update(Long id, PublisherCreateDTO dto) {
-        Publisher entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Publiser not found"));
+    public PublisherDTO update(Long id, PublisherCreateDTO dto) throws IllegalAccessException {
+        Publisher entity = repository.findById(id).orElseThrow(PublisherNotFoundException::new);
 
-        if (dto.name() != null) {
-            entity.setName(dto.name());
-        }
-        if (dto.site() != null) {
-            entity.setSite(dto.site());
-        }
+        ReflectionUtils.updateFields(entity, dto);
 
         Publisher publisher = repository.save(entity);
 
@@ -53,7 +49,7 @@ public class PublisherService {
     }
 
     public void delete(Long id) {
-        Publisher publisher = repository.findById(id).orElseThrow(() -> new RuntimeException("Publisher not found"));
+        Publisher publisher = repository.findById(id).orElseThrow(PublisherNotFoundException::new);
         repository.delete(publisher);
     }
 

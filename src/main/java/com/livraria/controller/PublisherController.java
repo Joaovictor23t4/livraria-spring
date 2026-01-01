@@ -3,6 +3,7 @@ package com.livraria.controller;
 import com.livraria.dto.PublisherCreateDTO;
 import com.livraria.dto.PublisherDTO;
 import com.livraria.service.PublisherService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +33,14 @@ public class PublisherController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<PublisherDTO> create(@RequestBody PublisherCreateDTO body) {
+    public ResponseEntity<PublisherDTO> create(@RequestBody @Valid PublisherCreateDTO body) {
         PublisherDTO publisher = service.create(body);
 
         return new ResponseEntity<>(publisher, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PublisherDTO> update(@PathVariable Long id, @RequestBody PublisherCreateDTO body) {
+    public ResponseEntity<PublisherDTO> update(@PathVariable Long id, @RequestBody @Valid PublisherCreateDTO body) throws IllegalAccessException {
         PublisherDTO publisher = service.update(id, body);
 
         return new ResponseEntity<>(publisher, HttpStatus.OK);

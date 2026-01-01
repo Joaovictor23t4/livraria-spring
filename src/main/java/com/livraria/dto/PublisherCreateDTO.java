@@ -1,5 +1,7 @@
 package com.livraria.dto;
 
-public record PublisherCreateDTO(String name, String site) {
+import jakarta.validation.constraints.NotNull;
+
+public record PublisherCreateDTO(@NotNull String name, String site) {
 
 }
