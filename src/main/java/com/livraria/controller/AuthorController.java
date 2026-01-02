@@ -26,8 +26,20 @@ public class AuthorController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<AuthorDTO>> findAll() {
-        List<AuthorDTO> authors = service.findAll();
+    public ResponseEntity<List<AuthorDTO>> findAll(@RequestParam(required = false, name = "name") String name, @RequestParam(required = false, name = "email") String email) {
+        if ((name == null || name.isBlank()) && (email == null || email.isBlank())) {
+            List<AuthorDTO> authors = service.findAll();
+            return new ResponseEntity<>(authors, HttpStatus.OK);
+        }
+        else if ((name != null && !name.isBlank()) && (email == null || email.isBlank())) {
+            List<AuthorDTO> authors = service.findByName(name);
+            return new ResponseEntity<>(authors, HttpStatus.OK);
+        }
+        else if ((name == null || name.isBlank()) && (email != null && !email.isBlank())) {
+            List<AuthorDTO> authors = service.findByEmail(email);
+            return new ResponseEntity<>(authors, HttpStatus.OK);
+        }
+        List<AuthorDTO> authors = service.findByNameAndEmail(name, email);
 
         return new ResponseEntity<>(authors, HttpStatus.OK);
     }

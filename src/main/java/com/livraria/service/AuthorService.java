@@ -37,6 +37,24 @@ public class AuthorService {
         return toAuthorDTO(author);
     }
 
+    public List<AuthorDTO> findByName(String name) {
+        List<Author> authors = repository.findByNameContainingIgnoreCase(name);
+
+        return authors.stream().map(this::toAuthorDTO).toList();
+    }
+
+    public List<AuthorDTO> findByEmail(String email) {
+        List<Author> authors = repository.findByEmailContaining(email);
+
+        return authors.stream().map(this::toAuthorDTO).toList();
+    }
+
+    public List<AuthorDTO> findByNameAndEmail(String name, String email) {
+        List<Author> authors = repository.findByNameContainingIgnoreCaseAndEmailContaining(name, email);
+
+        return authors.stream().map(this::toAuthorDTO).toList();
+    }
+
     public AuthorDTO update(Long id, AuthorUpdateDTO dto) throws IllegalAccessException {
         Author entity = repository.findById(id).orElseThrow(AuthorNotFoundException::new);
 
