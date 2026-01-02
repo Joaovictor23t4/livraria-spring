@@ -1,5 +1,6 @@
 package com.livraria.exceptions;
 
+import com.livraria.exceptions.author.AuthorNotFoundException;
 import com.livraria.exceptions.category.CategoryNotFoundException;
 import com.livraria.exceptions.publisher.PublisherNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,8 @@ public class RestExceptionHandler {
     }
     @ExceptionHandler({
             CategoryNotFoundException.class,
-            PublisherNotFoundException.class
+            PublisherNotFoundException.class,
+            AuthorNotFoundException.class
     })
     public ResponseEntity<ApiError> notFoundException(RuntimeException ex) {
         ApiError apiError = ApiError.builder().timestamp(LocalDateTime.now()).http_status(HttpStatus.NOT_FOUND.name()).code(HttpStatus.NOT_FOUND.value()).status("NOT_FOUND").errors(List.of(ex.getMessage())).build();

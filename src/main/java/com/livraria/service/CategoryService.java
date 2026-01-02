@@ -43,8 +43,9 @@ public class CategoryService {
 
         ReflectionUtils.updateFields(entity, dto);
 
-        Category response = repository.save(entity);
-        return new CategoryDTO(response.getId(), response.getDescription());
+        repository.save(entity);
+
+        return toCategoryDTO(entity);
     }
 
     public void delete(Long id) {
